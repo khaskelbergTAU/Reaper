@@ -1,5 +1,6 @@
 package earth.terrarium.reaper.common.block;
 
+import earth.terrarium.reaper.Reaper;
 import earth.terrarium.reaper.common.blockentity.ReaperGeneratorBlockEntity;
 import earth.terrarium.reaper.common.registry.ReaperRegistry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -38,7 +39,8 @@ public class ReaperGeneratorMenu extends AbstractContainerMenu {
     }
 
     public ReaperGeneratorMenu(int syncId, Inventory inventory, FriendlyByteBuf buf) {
-        this(new SimpleContainer(8), new SimpleContainerData(6), syncId, inventory, (ReaperGeneratorBlockEntity) inventory.player.level.getBlockEntity(buf.readBlockPos()));
+        this(new SimpleContainer(8), new SimpleContainerData(ReaperGeneratorData.COUNT), syncId, inventory,
+                (ReaperGeneratorBlockEntity) inventory.player.level.getBlockEntity(buf.readBlockPos()));
     }
 
     @Override

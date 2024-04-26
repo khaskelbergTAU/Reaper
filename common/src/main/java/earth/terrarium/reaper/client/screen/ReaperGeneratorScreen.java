@@ -47,7 +47,8 @@ public class ReaperGeneratorScreen extends AbstractContainerScreen<ReaperGenerat
         RenderSystem.setShaderTexture(0, TEXTURE);
         RenderSystem.setShaderColor(1, 1, 1, 1f);
         blit(matrixStack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
-        int energyBarHeight = Mth.clamp((int) (66F * (getEnergyLevel().get() / (float) 1000000)), 0, 66);
+        int energyBarHeight = Mth.clamp((int) (66F * (getEnergyLevel().get() / (float) getEnergyCapacity().get())), 0,
+                66);
         blit(matrixStack, leftPos + 133, topPos + 19 + (66 - energyBarHeight), 176, 66 - energyBarHeight, 12, energyBarHeight);
         int tickBarHeight = Mth.clamp((int) (66F * (getTicks().get() / (getMaxTicks().get() + 0.001f))), 0, 66);
         blit(matrixStack, leftPos + 119, topPos + 19 + (66 - tickBarHeight), 188, 66 - tickBarHeight, 6, tickBarHeight);
@@ -55,6 +56,10 @@ public class ReaperGeneratorScreen extends AbstractContainerScreen<ReaperGenerat
 
     public Supplier<Integer> getEnergyLevel() {
         return () -> menu.getContainerData().get(ReaperGeneratorData.ENERGY);
+    }
+
+    public Supplier<Integer> getEnergyCapacity() {
+        return () -> menu.getContainerData().get(ReaperGeneratorData.CAPACITY);
     }
 
     public Supplier<Integer> getTicks() {
@@ -78,7 +83,12 @@ public class ReaperGeneratorScreen extends AbstractContainerScreen<ReaperGenerat
         super.render(poseStack, mouseX, mouseY, f);
         this.renderTooltip(poseStack, mouseX, mouseY);
         if(mouseX > leftPos + 130 && mouseX < 147 + leftPos && mouseY > 16 + topPos && mouseY < 87 + topPos) {
-            this.renderTooltip(poseStack, Component.translatable("gui." + Reaper.MODID + ".energy_tooltip", Component.literal(String.valueOf(getEnergyLevel().get())).withStyle(ChatFormatting.GOLD), Component.literal("1000000").withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.AQUA), mouseX, mouseY);
+            this.renderTooltip(poseStack,
+                    Component.translatable("gui." + Reaper.MODID + ".energy_tooltip",
+                            Component.literal(String.valueOf(getEnergyLevel().get())).withStyle(ChatFormatting.GOLD),
+                            Component.literal(String.valueOf(getEnergyCapacity().get())).withStyle(ChatFormatting.GOLD))
+                            .withStyle(ChatFormatting.AQUA),
+                    mouseX, mouseY);
         } else if(mouseX > leftPos + 116 && mouseX < 127 + leftPos && mouseY > 16 + topPos && mouseY < 87 + topPos) {
             this.renderTooltip(poseStack, Component.translatable("gui." + Reaper.MODID + ".work_tooltip", Component.literal(String.valueOf(getTicks().get())).withStyle(ChatFormatting.GOLD), Component.literal(String.valueOf(getMaxTicks().get())).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.AQUA), mouseX, mouseY);
         }

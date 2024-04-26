@@ -11,6 +11,8 @@ public class ReaperGeneratorData implements ContainerData {
     public static final int PRODUCTION = 3;
     public static final int MAX_COOLDOWN = 4;
     public static final int RANGE = 5;
+    public static final int CAPACITY = 6;
+    public static final int COUNT = 7;
 
     public ReaperGeneratorData(ReaperGeneratorBlockEntity reaperGeneratorBlockEntity) {
         this.gen = reaperGeneratorBlockEntity;
@@ -25,6 +27,7 @@ public class ReaperGeneratorData implements ContainerData {
             case PRODUCTION -> gen.getEnergyGeneration();
             case MAX_COOLDOWN -> gen.getMaxCooldown();
             case RANGE -> gen.getMaxRange();
+            case CAPACITY -> (int) gen.getEnergyStorage().getMaxCapacity();
             default -> 0;
         };
     }
@@ -35,6 +38,6 @@ public class ReaperGeneratorData implements ContainerData {
 
     @Override
     public int getCount() {
-        return 6;
+        return COUNT;
     }
 }
